@@ -1,5 +1,5 @@
 @echo off
-rem Windows 10 media patcher for VeraCrypt
+rem Windows 10 media patcher for TrueCrypt
 rem Created 14.04.2017 by Thorben Wilde
 
 
@@ -7,18 +7,18 @@ pushd %~dp0
 
 echo.
 echo =============================================================================
-echo Windows 10 media patcher for upgrading VeraCrypt-encrypted systems
+echo Windows 10 media patcher for upgrading TrueCrypt-encrypted systems
 echo.
 echo This script prepares a Windows 10 installation media to upgrade
-echo VeraCrypt-encrypted Windows 10 systems without the need to decrypt them.
+echo TrueCrypt-encrypted Windows 10 systems without the need to decrypt them.
 echo.
 echo Some commands done by this script will display error messages.
 echo This is normal behavior and will be handled by the script.
 echo =============================================================================
-echo Windows 10 Medien Parcher zum Upgraden von VeraCrypt verschlÅsselten Systemen
+echo Windows 10 Medien Parcher zum Upgraden von TrueCrypt verschlÅsselten Systemen
 echo.
 echo Dieses Script bereitet ein Windows 10 Installationsmedium vor um
-echo VeraCrypt verschlÅsselte Windows 10 Systeme upzugraden, ohne dass diese 
+echo TrueCrypt verschlÅsselte Windows 10 Systeme upzugraden, ohne dass diese 
 echo entschlÅsselt werden mÅssen.
 echo.
 echo Einige Befehle, die von diesem Script ausgefÅhrt werden, zeigen
@@ -43,16 +43,16 @@ if not "%errorlevel%" == "0" (
 	goto :eof
 ) 
 
-if not exist %SystemRoot%\System32\drivers\veracrypt.sys (
+if not exist %SystemRoot%\System32\drivers\truecrypt.sys (
 	echo.
 	echo ========================================================================
-	echo It seems that VeraCrypt is not installed on this machine.
-	echo ^(%SystemRoot%\System32\drivers\veracrypt.sys does not exist.^)
-	echo This preparation must be done on a machine where VeraCrypt is installed.
+	echo It seems that TrueCrypt is not installed on this machine.
+	echo ^(%SystemRoot%\System32\drivers\truecrypt.sys does not exist.^)
+	echo This preparation must be done on a machine where TrueCrypt is installed.
 	echo ========================================================================
-	echo Es scheint als wÑhre VeraCrypt nicht auf dieser Maschine installiert.
-	echo ^(%SystemRoot%\System32\drivers\veracrypt.sys existiert nicht.^)
-	echo Diese Vorbereitung muss auf einer Maschine mit installiertem VeraCrypt
+	echo Es scheint als wÑhre TrueCrypt nicht auf dieser Maschine installiert.
+	echo ^(%SystemRoot%\System32\drivers\truecrypt.sys existiert nicht.^)
+	echo Diese Vorbereitung muss auf einer Maschine mit installiertem TrueCrypt
 	echo durchgefÅhrt werden.
 	echo ========================================================================
 	echo.
@@ -105,9 +105,9 @@ goto :eof
 
 	echo.
 	echo ===========================================
-	echo Inject VeraCrypt into install.wim
+	echo Inject TrueCrypt into install.wim
 	echo ===========================================
-	echo Injizieren von VeraCrypt in die install.wim
+	echo Injizieren von TrueCrypt in die install.wim
 	echo ===========================================
 	echo.
 
@@ -130,33 +130,33 @@ goto :eof
 	DISM.exe /Mount-Wim /WimFile:sources\install.wim /index:%imageIndex% /MountDir:mounted-install-wim
 	DISM.exe /Mount-Wim /WimFile:mounted-install-wim\Windows\System32\Recovery\winre.wim /index:1 /MountDir:mounted-winre-wim
 	
-	copy %SystemRoot%\System32\drivers\veracrypt.sys mounted-install-wim\Windows\System32\drivers\veracrypt.sys
-	copy %SystemRoot%\System32\drivers\veracrypt.sys mounted-winre-wim\Windows\System32\drivers\veracrypt.sys
+	copy %SystemRoot%\System32\drivers\truecrypt.sys mounted-install-wim\Windows\System32\drivers\truecrypt.sys
+	copy %SystemRoot%\System32\drivers\truecrypt.sys mounted-winre-wim\Windows\System32\drivers\truecrypt.sys
 
 	Reg LOAD HKLM\mounted-install-wim mounted-install-wim\Windows\System32\config\SYSTEM
 	Reg LOAD HKLM\mounted-winre-wim mounted-winre-wim\Windows\System32\config\SYSTEM
 
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f /v Type /t REG_DWORD /d 1
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f /v Start /t REG_DWORD /d 0
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f /v ErrorControl /t REG_DWORD /d 2
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f /v ImagePath /t REG_EXPAND_SZ /d System32\drivers\veracrypt.sys
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f /v DisplayName /t REG_SZ /d veracrypt
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f /v WOW64 /t REG_DWORD /d 1
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f /v Group /t REG_SZ /d Filter
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\veracrypt /f /v VeraCryptConfig /t REG_DWORD /d 2
-	Reg ADD HKLM\mounted-install-wim\ControlSet001\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318} /f /v UpperFilters /t REG_MULTI_SZ /d veracrypt\0PartMgr
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f /v Type /t REG_DWORD /d 1
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f /v Start /t REG_DWORD /d 0
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f /v ErrorControl /t REG_DWORD /d 2
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f /v ImagePath /t REG_EXPAND_SZ /d System32\drivers\truecrypt.sys
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f /v DisplayName /t REG_SZ /d truecrypt
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f /v WOW64 /t REG_DWORD /d 1
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f /v Group /t REG_SZ /d Filter
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Services\truecrypt /f /v TrueCryptConfig /t REG_DWORD /d 2
+	Reg ADD HKLM\mounted-install-wim\ControlSet001\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318} /f /v UpperFilters /t REG_MULTI_SZ /d truecrypt\0PartMgr
 
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f /v Type /t REG_DWORD /d 1
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f /v Start /t REG_DWORD /d 0
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f /v ErrorControl /t REG_DWORD /d 2
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f /v ImagePath /t REG_EXPAND_SZ /d System32\drivers\veracrypt.sys
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f /v DisplayName /t REG_SZ /d veracrypt
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f /v WOW64 /t REG_DWORD /d 1
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f /v Group /t REG_SZ /d Filter
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\veracrypt /f /v VeraCryptConfig /t REG_DWORD /d 2
-	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318} /f /v UpperFilters /t REG_MULTI_SZ /d veracrypt\0PartMgr
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f /v Type /t REG_DWORD /d 1
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f /v Start /t REG_DWORD /d 0
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f /v ErrorControl /t REG_DWORD /d 2
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f /v ImagePath /t REG_EXPAND_SZ /d System32\drivers\truecrypt.sys
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f /v DisplayName /t REG_SZ /d truecrypt
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f /v WOW64 /t REG_DWORD /d 1
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f /v Group /t REG_SZ /d Filter
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Services\truecrypt /f /v TrueCryptConfig /t REG_DWORD /d 2
+	Reg ADD HKLM\mounted-winre-wim\ControlSet001\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318} /f /v UpperFilters /t REG_MULTI_SZ /d truecrypt\0PartMgr
 	
 	Reg UNLOAD HKLM\mounted-install-wim
 	Reg UNLOAD HKLM\mounted-winre-wim
